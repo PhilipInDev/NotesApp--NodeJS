@@ -7,19 +7,19 @@ import {
     removeNoteRepo
 } from "../repositories/notesAppRepo.js";
 
-const yupId = Yup.number('ID must be a number').integer('ID must be an integer').positive('ID must be a positive number').required('ID is required');
+const yupId = Yup.number('ID must be a number').integer('ID must be an integer').positive('ID must be a positive number').typeError('ID must be a number').required('ID is required');
 const noteShape = Yup.object().shape({
     isActive: Yup.boolean().required('isActive field is required'),
     name: Yup.string().max(50, 'Name must have less than 50 chars').required('Name field is required'),
     created: Yup.string().required('Created field is required'),
-    category: Yup.string().required('Category field is required'),
+    category: Yup.string().matches(/(Task|Idea|Random Thought)/, 'Category must be one of those types: Task, Idea, Random Thought').required('Category field is required'),
     content: Yup.string().max(150, 'Content must have less than 150 chars').required('Content field is required'),
     dates: Yup.string().required('Dates field is required')
 }).strict(true).noUnknown(true).required();
 const noteEditedShape = Yup.object({
     isActive: Yup.boolean(),
     name: Yup.string(),
-    category: Yup.string(),
+    category: Yup.string().matches(/(Task|Idea|Random Thought)/, 'Category must be one of those types: Task, Idea, Random Thought'),
     content: Yup.string(),
     dates: Yup.string()
 }).strict(true).noUnknown(true);
