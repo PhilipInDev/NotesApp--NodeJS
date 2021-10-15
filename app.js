@@ -7,6 +7,7 @@ import notesRouter from './src/routes/notes.js';
 import indexRouter from './src/routes/index.js';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import {getResponseShape} from "./src/helpers/shared.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -27,19 +28,18 @@ app.use('/', indexRouter);
 app.use('/notes', notesRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+  res.status(err.status || 500).send(getResponseShape({}, [err.message], err.status));
 });
 
 export default app;
