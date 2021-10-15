@@ -22,7 +22,7 @@ const noteEditedShape = Yup.object({
     category: Yup.string().matches(/(Task|Idea|Random Thought)/, 'Category must be one of those types: Task, Idea, Random Thought'),
     content: Yup.string(),
     dates: Yup.string()
-}).strict(true).noUnknown(true);
+}).strict(true).noUnknown(true).required();
 
 export const removeNote = async (id) => {
     try {
